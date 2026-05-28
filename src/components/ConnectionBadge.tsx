@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import type { ConnectionStatus } from '@/hooks/useKitchenSocket'
+import type { ConnectionStatus } from '@/hooks/useOrders'
 
 const STATUS: Record<ConnectionStatus, { label: string; dot: string }> = {
   connecting: { label: 'Connecting…', dot: 'bg-amber-500 animate-pulse' },
