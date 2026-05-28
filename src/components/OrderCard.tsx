@@ -10,12 +10,6 @@ const PAYMENT_LABEL: Record<string, string> = {
   ONLINE_PAYMENT: 'Paid online',
 }
 
-/** A short, glanceable order reference (last segment of the platform order id). */
-function shortRef(orderId: string): string {
-  const parts = orderId.split('-')
-  return `#${parts[parts.length - 1] ?? orderId}`
-}
-
 export function OrderCard({ order }: { order: CanonicalOrder }) {
   const { meta, order_details } = order
   const platform = platformStyle(meta.platform)
@@ -34,7 +28,7 @@ export function OrderCard({ order }: { order: CanonicalOrder }) {
             {platform.label}
           </span>
           <span className="font-mono text-lg font-bold leading-none">
-            {shortRef(meta.order_id)}
+            #{meta.short_order_id}
           </span>
         </div>
         <div className="text-right text-xs text-muted-foreground">
