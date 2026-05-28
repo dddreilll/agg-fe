@@ -13,13 +13,6 @@ export type CanonicalOrderStatus =
 
 // ── REST API shapes (matches OrderResponseDto) ─────────────────────────────────
 
-export interface OrderModifier {
-  id: string
-  modifierId: string | null
-  modifierName: string
-  addedPriceCents: number
-}
-
 export interface OrderItem {
   id: string
   productId: string | null
@@ -28,7 +21,6 @@ export interface OrderItem {
   unitPriceCents: number
   notes: string | null
   position: number
-  modifiers: OrderModifier[]
 }
 
 export interface Order {
@@ -40,7 +32,6 @@ export interface Order {
   status: CanonicalOrderStatus
   paymentMethod: CanonicalPaymentMethod
   subtotalCents: number
-  modifierTotalCents: number
   grandTotalCents: number
   receivedAt: string
   createdAt: string

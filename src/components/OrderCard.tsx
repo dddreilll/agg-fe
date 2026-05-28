@@ -31,7 +31,7 @@ interface OrderCardProps {
 export function OrderCard({ order, onStatusChange }: OrderCardProps) {
   const [busy, setBusy] = useState(false)
   const { id, platform, shortOrderId, receivedAt, status, paymentMethod,
-          subtotalCents, modifierTotalCents, grandTotalCents, items } = order
+          subtotalCents, grandTotalCents, items } = order
   const p = platformStyle(platform)
   const actions = STATUS_ACTIONS[status]
   const isTerminal = !actions
@@ -73,14 +73,6 @@ export function OrderCard({ order, onStatusChange }: OrderCardProps) {
                   {formatCents(item.unitPriceCents)}
                 </span>
               </div>
-              {item.modifiers.map((m) => (
-                <div key={m.id} className="flex justify-between gap-2 pl-5 text-xs text-muted-foreground">
-                  <span>+ {m.modifierName}</span>
-                  {m.addedPriceCents > 0 && (
-                    <span className="tabular-nums">{formatCents(m.addedPriceCents)}</span>
-                  )}
-                </div>
-              ))}
               {item.notes && (
                 <div className="pl-5 text-xs italic text-amber-600 dark:text-amber-400">
                   &quot;{item.notes}&quot;
@@ -95,12 +87,6 @@ export function OrderCard({ order, onStatusChange }: OrderCardProps) {
           <span>Subtotal</span>
           <span className="tabular-nums">{formatCents(subtotalCents)}</span>
         </div>
-        {modifierTotalCents > 0 && (
-          <div className="flex justify-between text-muted-foreground">
-            <span>Add-ons</span>
-            <span className="tabular-nums">{formatCents(modifierTotalCents)}</span>
-          </div>
-        )}
         <div className="flex justify-between text-base font-bold">
           <span>Total</span>
           <span className="tabular-nums">{formatCents(grandTotalCents)}</span>
