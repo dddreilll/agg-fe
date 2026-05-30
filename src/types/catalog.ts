@@ -15,6 +15,7 @@ export interface Product {
   id: string
   categoryId: string | null
   sku: string | null
+  productCode: string | null
   name: string
   description: string | null
   basePriceCents: number

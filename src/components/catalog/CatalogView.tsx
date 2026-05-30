@@ -32,6 +32,7 @@ const PLATFORM_STYLE: Record<Platform, string> = {
 interface ProductFormData {
   name: string
   sku: string
+  productCode: string
   basePriceCents: string
   description: string
   imageUrl: string
@@ -39,7 +40,7 @@ interface ProductFormData {
 }
 
 const emptyForm = (): ProductFormData => ({
-  name: '', sku: '', basePriceCents: '', description: '', imageUrl: '', categoryId: '',
+  name: '', sku: '', productCode: '', basePriceCents: '', description: '', imageUrl: '', categoryId: '',
 })
 
 function formToDto(f: ProductFormData) {
@@ -47,6 +48,7 @@ function formToDto(f: ProductFormData) {
   return {
     name: f.name.trim(),
     sku: f.sku.trim() || undefined,
+    productCode: f.productCode.trim().toUpperCase() || undefined,
     basePriceCents: Number.isNaN(cents) ? 0 : cents,
     description: f.description.trim() || undefined,
     imageUrl: f.imageUrl.trim() || undefined,
@@ -103,6 +105,17 @@ function ProductForm({ initial, categories, onSubmit, onCancel, submitLabel }: P
         <div className="space-y-1">
           <label className="text-xs font-medium text-muted-foreground">Price (₱) *</label>
           <input {...field('basePriceCents')} placeholder="0.00" type="number" min="0" step="0.01" className={inputCls} />
+        </div>
+        <div className="space-y-1">
+          <label className="text-xs font-medium text-muted-foreground">Product Code</label>
+          <input
+            {...field('productCode')}
+            placeholder="e.g. CHK1"
+            maxLength={16}
+            className={inputCls}
+            style={{ textTransform: 'uppercase' }}
+          />
+          <p className="text-xs text-muted-foreground">Short code customers use when ordering via chat.</p>
         </div>
         <div className="col-span-2 space-y-1">
           <label className="text-xs font-medium text-muted-foreground">Description</label>
@@ -268,6 +281,11 @@ function ProductCard({ product, categories, apiUrl, storeId, onUpdated, onDelete
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
             <span className="truncate font-semibold">{product.name}</span>
+            {product.productCode && (
+              <span className="shrink-0 rounded bg-primary/10 px-1.5 py-0.5 font-mono text-xs font-bold text-primary">
+                {product.productCode}
+              </span>
+            )}
             {product.sku && (
               <span className="shrink-0 rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-muted-foreground">
                 {product.sku}
@@ -285,6 +303,7 @@ function ProductCard({ product, categories, apiUrl, storeId, onUpdated, onDelete
             initial={{
               name: product.name,
               sku: product.sku ?? '',
+              productCode: product.productCode ?? '',
               basePriceCents: (product.basePriceCents / 100).toFixed(2),
               description: product.description ?? '',
               imageUrl: product.imageUrl ?? '',

@@ -71,6 +71,7 @@ export function createProduct(
   dto: {
     categoryId?: string
     sku?: string
+    productCode?: string
     name: string
     description?: string
     basePriceCents: number
@@ -90,6 +91,7 @@ export function updateProduct(
   dto: Partial<{
     categoryId: string | null
     sku: string | null
+    productCode: string | null
     name: string
     description: string | null
     basePriceCents: number
